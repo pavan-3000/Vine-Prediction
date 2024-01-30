@@ -1,7 +1,7 @@
 from src.mlproject.logger import logging
 from src.mlproject.exception import CustomException
 import sys
-from src.mlproject.entity.config_entity import DataIngestionConfig,DataValidationConfig
+from src.mlproject.entity.config_entity import DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainerConfig
 
 from src.mlproject.constants import *
 
@@ -62,5 +62,50 @@ class ConfigManager:
             
             return get_data_validation
             
+        except Exception as e:
+            raise CustomException(e,sys)
+        
+    def DataTransformationManager(self):
+        try:
+            config = self.config.data_transformation
+            create_directory([config.root_dir])
+            
+            get_data_transformation = DataTransformationConfig(
+                root_dir=config.root_dir,
+                data_path=config.data_path
+            )
+            
+            return get_data_transformation
+            
+            
+            
+            
+            
+        except Exception as e:
+            raise CustomException(e,sys)
+        
+        
+    def ModelTrainerManager(self):
+        try:
+            config = self.config.model_trainer
+            schema = self.schema.target_column
+            params = self.params.ElasticNet
+            
+            create_directory([config.root_dir])
+            
+            get_model_trainer = ModelTrainerConfig(
+                root_dir=config.root_dir,
+                train_data_path=config.train_data_path,
+                test_data_path=config.test_data_path,
+                model_name=config.model_name,
+                alpha=params.alpha,
+                l1_ratio=params.l1_ratio,
+                target_column=schema.name
+            )
+            
+            return get_model_trainer
+        
+        
+        
         except Exception as e:
             raise CustomException(e,sys)
