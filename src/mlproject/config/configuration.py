@@ -1,7 +1,7 @@
 from src.mlproject.logger import logging
 from src.mlproject.exception import CustomException
 import sys
-from src.mlproject.entity.config_entity import DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainerConfig
+from src.mlproject.entity.config_entity import DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainerConfig,ModelEvaluationConfig
 
 from src.mlproject.constants import *
 
@@ -109,3 +109,24 @@ class ConfigManager:
         
         except Exception as e:
             raise CustomException(e,sys)
+        
+        
+    def ModelEvalutionManager(self) -> ModelEvaluationConfig:
+        config = self.config.model_evaluation
+        params = self.params.ElasticNet
+        schema = self.schema.target_column
+        
+        create_directory([config.root_dir])
+        
+        
+        get_model_evalution = ModelEvaluationConfig(
+            root_dir=config.root_dir,
+            test_data_path=config.test_data_path,
+            metric_file_name=config.metric_file_name,
+            model_path=config.model_path,
+            all_param=params,
+            target_column=schema.name
+        )
+        
+        return get_model_evalution
+        

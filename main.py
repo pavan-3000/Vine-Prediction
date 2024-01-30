@@ -5,6 +5,7 @@ from src.mlproject.pipeline.data_ingestion_pipeline import Pipeline
 from src.mlproject.pipeline.data_validation_pipeline import DataValidationPipeline
 from src.mlproject.pipeline.data_transformation_pipeline import DataTransformationPipeline
 from src.mlproject.pipeline.model_trainer_pipeline import ModelTrainerPipeline
+from src.mlproject.pipeline.data_evalution_pipeline  import ModelEvalutionPipeline
 '''
 try:
     
@@ -56,5 +57,12 @@ try:
     
     
     
+except Exception as e:
+    raise CustomException(e,sys)
+
+
+try:
+    model_eval = ModelEvalutionPipeline()
+    model_eval.main()
 except Exception as e:
     raise CustomException(e,sys)
